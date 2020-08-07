@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(obs-plugin VERSION 0.1.0)
+project(win-audio-session-capture VERSION 0.1.0)
 
 set(PLUGIN_AUTHOR "Cameron Blomquist")
 
@@ -27,6 +27,7 @@ configure_file(
 )
 
 set(PLUGIN_SOURCES
+    src/audio-capture.cpp
 	src/plugin-main.cpp)
 
 set(PLUGIN_HEADERS

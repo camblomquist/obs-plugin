@@ -1,5 +1,5 @@
 /*
-OBS Plugin
+Windows Audio Session Capture Plugin for OBS Studio
 Copyright (C) 2020 Cameron Blomquist cameron@blomqu.ist
 
 This program is free software; you can redistribute it and/or modify
@@ -24,16 +24,19 @@ OBS_DECLARE_MODULE()
 OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
 MODULE_EXPORT const char* obs_module_description(void)
 {
-    return "OBS Plugin";
+	return "Windows audio session capture source";
 }
+
+void RegisterAudioCaptureSource();
 
 bool obs_module_load(void)
 {
-    blog(LOG_INFO, "plugin loaded successfully (version %s)", PLUGIN_VERSION);
-    return true;
+	RegisterAudioCaptureSource();
+	blog(LOG_INFO, "plugin loaded successfully (version %s)", PLUGIN_VERSION);
+	return true;
 }
 
 void obs_module_unload()
 {
-    blog(LOG_INFO, "plugin unloaded");
+	blog(LOG_INFO, "plugin unloaded");
 }
