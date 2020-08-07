@@ -25,78 +25,69 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #pragma endregion
 
 #pragma region Class Definition
-class AudioCaptureSource
-{
-	obs_source_t* source;
+class AudioCaptureSource {
+	obs_source_t *source;
 
 public:
-	AudioCaptureSource(obs_data_t* settings, obs_source_t* source);
+	AudioCaptureSource(obs_data_t *settings, obs_source_t *source);
 	~AudioCaptureSource();
 
-	void Update(obs_data_t* settings);
+	void Update(obs_data_t *settings);
 };
 #pragma endregion
 
 #pragma region Class Implementation
-AudioCaptureSource::AudioCaptureSource(obs_data_t* settings, obs_source_t* source) :
-	source(source)
+AudioCaptureSource::AudioCaptureSource(obs_data_t *settings,
+				       obs_source_t *source)
+	: source(source)
 {
-
 }
 
-AudioCaptureSource::~AudioCaptureSource()
-{
+AudioCaptureSource::~AudioCaptureSource() {}
 
-}
-
-void AudioCaptureSource::Update(obs_data_t* settings)
-{
-
-}
+void AudioCaptureSource::Update(obs_data_t *settings) {}
 #pragma endregion
 
 #pragma region OBS Source Info
-static const char* GetAudioCaptureSourceName(void*)
+static const char *GetAudioCaptureSourceName(void *)
 {
 	return TEXT_AUDIO_CAPTURE;
 }
 
-static void* CreateAudioCaptureSource(obs_data_t* settings, obs_source_t* source)
+static void *CreateAudioCaptureSource(obs_data_t *settings,
+				      obs_source_t *source)
 {
 	return new AudioCaptureSource(settings, source);
 }
 
-static void DestroyAudioCaptureSource(void* data)
+static void DestroyAudioCaptureSource(void *data)
 {
-	delete static_cast<AudioCaptureSource*>(data);
+	delete static_cast<AudioCaptureSource *>(data);
 }
 
-static void UpdateAudioCaptureSource(void* data, obs_data_t* settings)
+static void UpdateAudioCaptureSource(void *data, obs_data_t *settings)
 {
-	static_cast<AudioCaptureSource*>(data)->Update(settings);
+	static_cast<AudioCaptureSource *>(data)->Update(settings);
 }
 
-static void GetAudioCaptureSourceDefaults(obs_data_t* settings)
-{
+static void GetAudioCaptureSourceDefaults(obs_data_t *settings) {}
 
-}
-
-static obs_properties_t* GetAudioCaptureSourceProperties(void* data)
+static obs_properties_t *GetAudioCaptureSourceProperties(void *data)
 {
-	obs_properties_t* props = obs_properties_create();
+	obs_properties_t *props = obs_properties_create();
 
 	return props;
 }
 
-void RegisterAudioCaptureSource() {
+void RegisterAudioCaptureSource()
+{
 	/* Did you know that designated initializers have been in C since C99
 	 * But weren't in C++ until C++20? I learned that just now. */
 	obs_source_info info = {};
 	info.id = "audio_session_capture";
 	info.type = OBS_SOURCE_TYPE_INPUT;
-	info.output_flags = OBS_SOURCE_AUDIO |
-		OBS_SOURCE_DO_NOT_DUPLICATE |
-		OBS_SOURCE_DO_NOT_SELF_MONITOR;
+	info.output_flags = OBS_SOURCE_AUDIO | OBS_SOURCE_DO_NOT_DUPLICATE |
+			    OBS_SOURCE_DO_NOT_SELF_MONITOR;
 	info.get_name = GetAudioCaptureSourceName;
 	info.create = CreateAudioCaptureSource;
 	info.destroy = DestroyAudioCaptureSource;
