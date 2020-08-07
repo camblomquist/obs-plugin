@@ -1,6 +1,6 @@
 /*
-Plugin Name
-Copyright (C) <Year> <Developer> <Email Address>
+OBS Plugin
+Copyright (C) 2020 Cameron Blomquist cameron@blomqu.ist
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,6 +22,10 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 OBS_DECLARE_MODULE()
 OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
+MODULE_EXPORT const char* obs_module_description(void)
+{
+    return "OBS Plugin";
+}
 
 bool obs_module_load(void)
 {
