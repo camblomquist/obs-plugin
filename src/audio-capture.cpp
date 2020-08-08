@@ -17,10 +17,16 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
 #include <obs-module.h>
+#include <util/dstr.hpp>
+
+#include "helpers/audio-session-helper.hpp"
 
 #pragma region Macros
 /* clang-format off */
+#define SETTING_SESSION				"session"
+
 #define TEXT_AUDIO_CAPTURE			obs_module_text("AudioCapture")
+#define TEXT_SESSION				obs_module_text("AudioCapture.Session")
 /* clang-format on */
 #pragma endregion
 
@@ -75,6 +81,23 @@ static void GetAudioCaptureSourceDefaults(obs_data_t *settings) {}
 static obs_properties_t *GetAudioCaptureSourceProperties(void *data)
 {
 	obs_properties_t *props = obs_properties_create();
+	obs_property_t *p;
+
+	p = obs_properties_add_list(props, SETTING_SESSION, TEXT_SESSION,
+				    OBS_COMBO_TYPE_LIST,
+				    OBS_COMBO_FORMAT_STRING);
+	obs_property_list_add_string(p, "", "");
+
+	std::vector<AudioSessionInfo> sessions = GetAudioSessions();
+
+	for (auto session : sessions) {
+		DStr desc;
+		dstr_printf(desc, "[%s]: %s (%s)", session.exe.c_str(),
+			    session.session_name.c_str(),
+			    session.device_name.c_str());
+		obs_property_list_add_string(p, desc,
+					     session.session_id.c_str());
+	}
 
 	return props;
 }

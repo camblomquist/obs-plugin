@@ -32,12 +32,12 @@ void RegisterAudioCaptureSource();
 bool obs_module_load(void)
 {
 	RegisterAudioCaptureSource();
-	blog(LOG_INFO, "plugin loaded successfully (version %s)",
+	binfo("plugin loaded successfully (version %s)",
 	     PLUGIN_VERSION);
 	return true;
 }
 
 void obs_module_unload()
 {
-	blog(LOG_INFO, "plugin unloaded");
+	binfo("plugin unloaded");
 }
