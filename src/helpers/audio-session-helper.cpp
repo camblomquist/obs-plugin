@@ -15,6 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>
 */
+
 #include "audio-session-helper.hpp"
 
 #include <util/base.h>
@@ -27,8 +28,6 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include "windows-helper.hpp"
 
 #define AUDCLNT_S_NO_SINGLE_PROCESS AUDCLNT_SUCCESS(0x00d)
-
-// TODO: Find a better place for this to, it will probably see more use
 
 // Borrowed from win-wasapi (win-wasapi.cpp)
 std::string GetDeviceName(IMMDevice *device)
