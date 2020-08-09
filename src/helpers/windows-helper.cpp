@@ -34,6 +34,9 @@ std::string StringFromLPWSTR(LPWSTR str)
 	result.resize(len_dest);
 	os_wcs_to_utf8(str, len_src, &result[0], len_dest);
 
+	// Need to remove the null-terminator that was improperly copied
+	result.resize(len_dest - 1);
+
 	return result;
 }
 
