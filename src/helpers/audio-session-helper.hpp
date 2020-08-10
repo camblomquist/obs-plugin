@@ -28,13 +28,13 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <string>
 
 struct AudioSessionInfo {
-	std::string session_name;
-	std::string session_id;
+	std::string sessionName;
+	std::string sessionId;
 
-	std::string device_name;
-	std::string device_id;
+	std::string deviceName;
+	std::string deviceId;
 
-	DWORD process_id;
+	DWORD processId;
 	std::string exe;
 };
 

@@ -44,22 +44,22 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 /* Fuck C++ for having literally the worst implementation of enumerated
  * types in any language I've ever used */
-enum class HookRate { SLOW, NORMAL, FAST, FASTEST }; 
+enum class HookRate { SLOW, NORMAL, FAST, FASTEST };
 
 #pragma region Class Definition
 class AudioCaptureSource {
 	obs_source_t *source;
 
 	std::string session;
-	std::string session_id;
-	std::string device_id;
+	std::string sessionId;
+	std::string deviceId;
 
 	speaker_layout speakers;
 	audio_format format;
-	uint32_t samples_per_sec;
+	uint32_t samplesPerSec;
 
-	bool anticheat_hook;
-	HookRate hook_rate;
+	bool anticheatHook;
+	HookRate hookRate;
 
 	void Start();
 	void Stop();
@@ -109,26 +109,26 @@ AudioCaptureSource::~AudioCaptureSource()
 
 void AudioCaptureSource::Update(obs_data_t *settings)
 {
-	std::string new_session =
+	std::string newSession =
 		obs_data_get_string(settings, SETTING_SESSION);
-	bool reset = new_session != session;
+	bool reset = newSession != session;
 
 	if (reset) {
 		Stop();
 	}
 
-	session = new_session;
+	session = newSession;
 	if (session.empty()) {
-		session_id = "";
-		device_id = "";
+		sessionId = "";
+		deviceId = "";
 	} else {
-		size_t delim = new_session.find("::");
-		session_id = session.substr(0, delim);
-		device_id = session.substr(delim);
-	}	
+		size_t delim = newSession.find("::");
+		sessionId = session.substr(0, delim);
+		deviceId = session.substr(delim);
+	}
 
-	anticheat_hook = obs_data_get_bool(settings, SETTING_ANTI_CHEAT_HOOK);
-	hook_rate = static_cast<HookRate>(
+	anticheatHook = obs_data_get_bool(settings, SETTING_ANTI_CHEAT_HOOK);
+	hookRate = static_cast<HookRate>(
 		obs_data_get_int(settings, SETTING_HOOK_RATE));
 
 	if (reset) {
@@ -141,6 +141,7 @@ void AudioCaptureSource::Update(obs_data_t *settings)
 void AudioCaptureSource::Start() {}
 
 void AudioCaptureSource::Stop() {}
+
 #pragma endregion
 #pragma endregion
 
@@ -169,7 +170,8 @@ static void UpdateAudioCaptureSource(void *data, obs_data_t *settings)
 static void GetAudioCaptureSourceDefaults(obs_data_t *settings)
 {
 	obs_data_set_default_bool(settings, SETTING_ANTI_CHEAT_HOOK, true);
-	obs_data_set_default_int(settings, SETTING_HOOK_RATE, static_cast<int>(HookRate::NORMAL));
+	obs_data_set_default_int(settings, SETTING_HOOK_RATE,
+				 static_cast<int>(HookRate::NORMAL));
 }
 
 static obs_properties_t *GetAudioCaptureSourceProperties(void *data)
@@ -188,15 +190,15 @@ static obs_properties_t *GetAudioCaptureSourceProperties(void *data)
 		DStr desc;
 		DStr id;
 
-		if (session.session_name.empty()) {
-			session.session_name = "Unnamed Session";
+		if (session.sessionName.empty()) {
+			session.sessionName = "Unnamed Session";
 		}
 
 		dstr_printf(desc, "[%s]: %s (%s)", session.exe.c_str(),
-			    session.session_name.c_str(),
-			    session.device_name.c_str());
-		dstr_printf(id, "%s::%s", session.device_id.c_str(),
-			    session.session_id.c_str());
+			    session.sessionName.c_str(),
+			    session.deviceName.c_str());
+		dstr_printf(id, "%s::%s", session.deviceId.c_str(),
+			    session.sessionId.c_str());
 		obs_property_list_add_string(p, desc, id);
 	}
 

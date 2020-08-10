@@ -32,7 +32,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 // Borrowed from win-wasapi (win-wasapi.cpp)
 std::string GetDeviceName(IMMDevice *device)
 {
-	std::string device_name;
+	std::string deviceName;
 	ComPtr<IPropertyStore> store;
 	HRESULT hr;
 
@@ -43,20 +43,20 @@ std::string GetDeviceName(IMMDevice *device)
 		hr = store->GetValue(PKEY_Device_FriendlyName, &nameVar);
 
 		if (SUCCEEDED(hr) && nameVar.pwszVal && *nameVar.pwszVal) {
-			device_name = StringFromLPWSTR(nameVar.pwszVal);
+			deviceName = StringFromLPWSTR(nameVar.pwszVal);
 		}
 	}
 
-	return device_name;
+	return deviceName;
 }
 
 static std::vector<AudioSessionInfo> GetAudioSessionsInternal()
 {
 	HRESULT hr;
-	std::vector<AudioSessionInfo> res_sessions;
+	std::vector<AudioSessionInfo> res;
 	ComPtr<IMMDeviceEnumerator> enumerator;
 	ComPtr<IMMDeviceCollection> collection;
-	UINT device_count;
+	UINT deviceCount;
 
 	hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL,
 			      IID_PPV_ARGS(&enumerator));
@@ -69,29 +69,29 @@ static std::vector<AudioSessionInfo> GetAudioSessionsInternal()
 	if (FAILED(hr))
 		throw HRError("Failed to enumerate devices", hr);
 
-	hr = collection->GetCount(&device_count);
+	hr = collection->GetCount(&deviceCount);
 	if (FAILED(hr))
 		throw HRError("Failed to get device count", hr);
 
-	for (UINT i = 0; i < device_count; i++) {
+	for (UINT i = 0; i < deviceCount; i++) {
 		ComPtr<IMMDevice> device;
 		ComPtr<IAudioSessionManager2> manager;
 		ComPtr<IAudioSessionEnumerator> sessions;
-		CoTaskMemPtr<WCHAR> w_device_id;
-		std::string device_name;
-		std::string device_id;
-		int session_count;
+		CoTaskMemPtr<WCHAR> wDeviceId;
+		std::string deviceName;
+		std::string deviceId;
+		int sessionCount;
 
 		hr = collection->Item(i, &device);
 		if (FAILED(hr))
 			continue;
 
-		hr = device->GetId(&w_device_id);
-		if (FAILED(hr) || !w_device_id || !*w_device_id)
+		hr = device->GetId(&wDeviceId);
+		if (FAILED(hr) || !wDeviceId || !*wDeviceId)
 			continue;
 
-		device_name = GetDeviceName(device);
-		device_id = StringFromLPWSTR(w_device_id);
+		deviceName = GetDeviceName(device);
+		deviceId = StringFromLPWSTR(wDeviceId);
 
 		hr = device->Activate(__uuidof(IAudioSessionManager2),
 				      CLSCTX_ALL, NULL,
@@ -103,15 +103,15 @@ static std::vector<AudioSessionInfo> GetAudioSessionsInternal()
 		if (FAILED(hr))
 			continue;
 
-		hr = sessions->GetCount(&session_count);
+		hr = sessions->GetCount(&sessionCount);
 		if (FAILED(hr))
 			continue;
 
-		for (int j = 0; j < session_count; j++) {
+		for (int j = 0; j < sessionCount; j++) {
 			ComPtr<IAudioSessionControl> session1;
-			CoTaskMemPtr<WCHAR> w_session_name;
-			CoTaskMemPtr<WCHAR> w_session_id;
-			DWORD process_id;
+			CoTaskMemPtr<WCHAR> wSessionName;
+			CoTaskMemPtr<WCHAR> wSessionId;
+			DWORD processId;
 			AudioSessionInfo info;
 
 			hr = sessions->GetSession(j, &session1);
@@ -124,42 +124,42 @@ static std::vector<AudioSessionInfo> GetAudioSessionsInternal()
 			if (session2->IsSystemSoundsSession() == S_OK)
 				continue;
 
-			hr = session2->GetDisplayName(&w_session_name);
+			hr = session2->GetDisplayName(&wSessionName);
 			if (FAILED(hr))
 				continue;
 
-			hr = session2->GetSessionIdentifier(&w_session_id);
+			hr = session2->GetSessionIdentifier(&wSessionId);
 			if (FAILED(hr))
 				continue;
 
-			hr = session2->GetProcessId(&process_id);
+			hr = session2->GetProcessId(&processId);
 			if (FAILED(hr))
 				continue;
 
-			info.session_name = StringFromLPWSTR(w_session_name);
-			info.session_id = StringFromLPWSTR(w_session_id);
-			info.device_name = device_name;
-			info.device_id = device_id;
-			info.process_id = process_id;
-			info.exe = GetProcessExeName(process_id);
+			info.sessionName = StringFromLPWSTR(wSessionName);
+			info.sessionId = StringFromLPWSTR(wSessionId);
+			info.deviceName = deviceName;
+			info.deviceId = deviceId;
+			info.processId = processId;
+			info.exe = GetProcessExeName(processId);
 
-			res_sessions.push_back(info);
+			res.push_back(info);
 		}
 	}
 
-	return res_sessions;
+	return res;
 }
 
 std::vector<AudioSessionInfo> GetAudioSessions()
 {
-	std::vector<AudioSessionInfo> sessions;
+	std::vector<AudioSessionInfo> res;
 
 	// I *really* miss Rust Results
 	try {
-		sessions = GetAudioSessionsInternal();
+		res = GetAudioSessionsInternal();
 	} catch (HRError &error) {
 		bwarn("%s: %lX", error.str, error.hr);
 	}
 
-	return sessions;
+	return res;
 }
