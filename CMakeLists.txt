@@ -51,3 +51,5 @@ if (MSVC)
 endif()
 
 install_plugin_with_data(${CMAKE_PROJECT_NAME} "data")
+
+add_subdirectory(src/get-audio-offsets)
