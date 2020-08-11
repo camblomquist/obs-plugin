@@ -30,13 +30,13 @@ configure_file(
 set(PLUGIN_SOURCES
     src/helpers/audio-session-helper.cpp
     src/helpers/windows-helper.cpp
-	src/audio-hook-info.hpp
     src/audio-capture.cpp
 	src/plugin-main.cpp)
 
 set(PLUGIN_HEADERS
     src/helpers/audio-session-helper.hpp
     src/helpers/windows-helper.hpp
+    src/audio-capture.hpp
 	src/plugin-macros.generated.h)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE ${PLUGIN_SOURCES} ${PLUGIN_HEADERS})

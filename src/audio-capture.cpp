@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+#include "audio-capture.hpp"
+
 #include <obs-module.h>
 #include <util/dstr.hpp>
 
@@ -42,37 +44,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 	(KSAUDIO_SPEAKER_SURROUND | SPEAKER_LOW_FREQUENCY)
 #pragma endregion
 
-/* Fuck C++ for having literally the worst implementation of enumerated
- * types in any language I've ever used */
-enum class HookRate { SLOW, NORMAL, FAST, FASTEST };
-
-#pragma region Class Definition
-class AudioCaptureSource {
-	obs_source_t *source;
-
-	std::string session;
-	std::string sessionId;
-	std::string deviceId;
-
-	speaker_layout speakers;
-	audio_format format;
-	uint32_t samplesPerSec;
-
-	bool anticheatHook;
-	HookRate hookRate;
-
-	void Start();
-	void Stop();
-
-public:
-	AudioCaptureSource(obs_data_t *settings, obs_source_t *source);
-	~AudioCaptureSource();
-
-	void Update(obs_data_t *settings);
-};
-#pragma endregion
-
-#pragma region Misc Utility Functions
+#pragma region Miscellany
 // Borrowed from win-wasapi (win-wasapi.cpp)
 static speaker_layout ConvertSpeakerLayout(DWORD layout, WORD channels)
 {
@@ -95,7 +67,8 @@ static speaker_layout ConvertSpeakerLayout(DWORD layout, WORD channels)
 
 #pragma region Class Implementation
 #pragma region Public
-AudioCaptureSource::AudioCaptureSource(obs_data_t *settings,
+AudioCaptureSource::AudioCaptureSource(
+	obs_data_t * settings,
 				       obs_source_t *source)
 	: source(source)
 {

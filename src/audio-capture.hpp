@@ -16,27 +16,39 @@ You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>
 */
 
+#pragma once
+
 #include <obs-module.h>
 
-#include "plugin-macros.generated.h"
-#include "audio-capture.hpp"
+#include <string>
 
-OBS_DECLARE_MODULE()
-OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
-MODULE_EXPORT const char *obs_module_description(void)
-{
-	return "Windows audio session capture source";
-}
+/* Fuck C++ for having literally the worst implementation of enumerated
+ * types in any language I've ever used */
+enum class HookRate { SLOW, NORMAL, FAST, FASTEST };
 
-bool obs_module_load(void)
-{
-	RegisterAudioCaptureSource();
-	binfo("plugin loaded successfully (version %s)",
-	     PLUGIN_VERSION);
-	return true;
-}
+class AudioCaptureSource {
+	obs_source_t *source;
 
-void obs_module_unload()
-{
-	binfo("plugin unloaded");
-}
+	std::string session;
+	std::string sessionId;
+	std::string deviceId;
+
+	speaker_layout speakers;
+	audio_format format;
+	uint32_t samplesPerSec;
+
+	bool anticheatHook;
+	HookRate hookRate;
+
+	void Start();
+	void Stop();
+
+public:
+
+	AudioCaptureSource(obs_data_t *settings, obs_source_t *source);
+	~AudioCaptureSource();
+
+	void Update(obs_data_t *settings);
+};
+
+void RegisterAudioCaptureSource();
