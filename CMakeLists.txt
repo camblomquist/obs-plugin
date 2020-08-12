@@ -30,12 +30,14 @@ configure_file(
 set(PLUGIN_SOURCES
     src/helpers/audio-session-helper.cpp
     src/helpers/windows-helper.cpp
+    src/helpers/process-pipe.cpp
     src/audio-capture.cpp
 	src/plugin-main.cpp)
 
 set(PLUGIN_HEADERS
     src/helpers/audio-session-helper.hpp
     src/helpers/windows-helper.hpp
+    src/helpers/process-pipe.hpp
     src/audio-capture.hpp
 	src/plugin-macros.generated.h)
 
