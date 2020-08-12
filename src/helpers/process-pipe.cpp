@@ -24,10 +24,6 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <util/platform.h>
 #include <util/windows/WinHandle.hpp>
 
-#include <util/base.h>
-
-#include "../plugin-macros.generated.h"
-
 ProcessPipe::ProcessPipe(char *command)
 {
 	WinHandle hStdoutWr;
