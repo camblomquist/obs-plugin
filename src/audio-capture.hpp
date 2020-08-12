@@ -22,6 +22,8 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 #include <string>
 
+#include "audio-hook-info.hpp"
+
 /* Fuck C++ for having literally the worst implementation of enumerated
  * types in any language I've ever used */
 enum class HookRate { SLOW, NORMAL, FAST, FASTEST };
@@ -44,6 +46,9 @@ class AudioCaptureSource {
 	void Stop();
 
 public:
+	// Code smell?
+	static AudioRenderClientOffsets offsets32;
+	static AudioRenderClientOffsets offsets64;
 
 	AudioCaptureSource(obs_data_t *settings, obs_source_t *source);
 	~AudioCaptureSource();

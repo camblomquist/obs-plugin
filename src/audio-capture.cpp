@@ -22,6 +22,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <util/dstr.hpp>
 
 #include "plugin-macros.generated.h"
+#include "preinit.hpp"
 #include "helpers/audio-session-helper.hpp"
 
 #pragma region Macros
@@ -67,11 +68,15 @@ static speaker_layout ConvertSpeakerLayout(DWORD layout, WORD channels)
 
 #pragma region Class Implementation
 #pragma region Public
+AudioRenderClientOffsets AudioCaptureSource::offsets32 = {};
+AudioRenderClientOffsets AudioCaptureSource::offsets64 = {};
+
 AudioCaptureSource::AudioCaptureSource(
 	obs_data_t * settings,
 				       obs_source_t *source)
 	: source(source)
 {
+	WaitForPreinitialization();
 	Update(settings);
 }
 

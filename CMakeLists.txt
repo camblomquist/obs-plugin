@@ -32,6 +32,7 @@ set(PLUGIN_SOURCES
     src/helpers/windows-helper.cpp
     src/helpers/process-pipe.cpp
     src/audio-capture.cpp
+    src/preinit.cpp
 	src/plugin-main.cpp)
 
 set(PLUGIN_HEADERS
@@ -39,6 +40,7 @@ set(PLUGIN_HEADERS
     src/helpers/windows-helper.hpp
     src/helpers/process-pipe.hpp
     src/audio-capture.hpp
+    src/preinit.hpp
 	src/plugin-macros.generated.h)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE ${PLUGIN_SOURCES} ${PLUGIN_HEADERS})
