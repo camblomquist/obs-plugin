@@ -21,7 +21,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <obs-module.h>
 #include <util/dstr.hpp>
 
-#include "plugin-macros.generated.h"
+#include "plugin-macros.hpp"
 #include "preinit.hpp"
 #include "helpers/audio-session-helper.hpp"
 

@@ -22,7 +22,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 #include <string>
 
-#include "audio-hook-info.hpp"
+#include "audio-hook/audio-hook-info.hpp"
 
 /* Fuck C++ for having literally the worst implementation of enumerated
  * types in any language I've ever used */

@@ -27,9 +27,9 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 #include <string>
 
-#include "plugin-macros.generated.h"
+#include "plugin-macros.hpp"
 #include "audio-capture.hpp"
-#include "audio-hook-info.hpp"
+#include "audio-hook/audio-hook-info.hpp"
 #include "helpers/process-pipe.hpp"
 
 static WinHandle preinitThread;

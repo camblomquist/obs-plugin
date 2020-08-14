@@ -24,7 +24,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <util/windows/CoTaskMemPtr.hpp>
 #include <util/windows/HRError.hpp>
 
-#include "../plugin-macros.generated.h"
+#include "plugin-macros.hpp"
 #include "windows-helper.hpp"
 
 #define AUDCLNT_S_NO_SINGLE_PROCESS AUDCLNT_SUCCESS(0x00d)
