@@ -24,6 +24,8 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <cinttypes>
 #include <cstdio>
 
+#include "audio-hook-info.hpp"
+
 int main()
 {
 	SetErrorMode(SEM_FAILCRITICALERRORS);
@@ -32,8 +34,8 @@ int main()
 
 	// Formatted printing with cout is miserable, printf can stay
 	printf("[IAudioRenderClient]\n");
-	printf("getBuffer=0x%" PRIx32 "\n", offsets.getBuffer);
-	printf("releaseBuffer=0x%" PRIx32 "\n", offsets.releaseBuffer);
+	printf("getBuffer=0x%" PRIx64 "\n", offsets.getBuffer);
+	printf("releaseBuffer=0x%" PRIx64 "\n", offsets.releaseBuffer);
 
 	return 0;
 }

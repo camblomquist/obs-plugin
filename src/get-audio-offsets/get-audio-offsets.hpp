@@ -25,13 +25,6 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <cstdio>
 #include <cinttypes>
 
-#include "../audio-hook-info.hpp"
-
-static inline uint32_t VTableOffset(HMODULE module, void *klass,
-				    unsigned int offset)
-{
-	uintptr_t *vtable = *reinterpret_cast<uintptr_t **>(klass);
-	return static_cast<uint32_t>(vtable[offset] - reinterpret_cast<uintptr_t>(module));
-}
+#include "audio-hook-info.hpp"
 
 AudioRenderClientOffsets GetOffsets();

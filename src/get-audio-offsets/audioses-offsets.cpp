@@ -77,7 +77,7 @@ static bool Initialize(Info &info)
 	if (FAILED(hr))
 		return false;
 
-	info.module = GetModuleHandleA("audioses.dll");
+	info.module = GetModuleHandleW(L"audioses.dll");
 	if (!info.module)
 		return false;
 
@@ -98,6 +98,13 @@ static void Free(Info &info)
 		info.enumerator->Release();
 	if (info.initialized)
 		CoUninitialize();
+}
+
+static inline uintptr_t VTableOffset(HMODULE module, void *klass,
+				     unsigned int offset)
+{
+	uintptr_t *vtable = *reinterpret_cast<uintptr_t **>(klass);
+	return vtable[offset] - reinterpret_cast<uintptr_t>(module);
 }
 
 AudioRenderClientOffsets GetOffsets()
