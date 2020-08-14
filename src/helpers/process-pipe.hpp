@@ -27,8 +27,6 @@ class ProcessPipe {
 	WinHandle hStdout;
 	WinHandle process;
 
-	void CreateChildProcess(char *command);
-
 public:
 	ProcessPipe(char *command);
 

@@ -30,7 +30,7 @@ ProcessPipe::ProcessPipe(char *command)
 
 	// Little bit nasty
 	SECURITY_ATTRIBUTES attributes = {};
-	attributes.nLength = sizeof SECURITY_ATTRIBUTES;
+	attributes.nLength = sizeof attributes;
 	attributes.bInheritHandle = true;
 	attributes.lpSecurityDescriptor = nullptr;
 
@@ -45,7 +45,7 @@ ProcessPipe::ProcessPipe(char *command)
 	PROCESS_INFORMATION procInfo = {};
 	STARTUPINFOW startInfo = {};
 
-	startInfo.cb = sizeof STARTUPINFOW;
+	startInfo.cb = sizeof startInfo;
 	startInfo.hStdError = nullptr;
 	startInfo.hStdInput = nullptr;
 	startInfo.hStdOutput = hStdoutWr;
@@ -77,9 +77,4 @@ size_t ProcessPipe::Read(char *buffer, size_t length)
 	}
 
 	return 0;
-}
-
-void ProcessPipe::CreateChildProcess(char *command)
-{
-
 }
