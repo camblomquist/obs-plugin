@@ -24,42 +24,41 @@ function(install_plugin target)
 	set_target_properties(${target} PROPERTIES PREFIX "")
 	add_custom_command(TARGET ${target} POST_BUILD
 		# If config is Release or RelWithDebInfo, package release files
-		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> (
+		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> == 1 (
 			"${CMAKE_COMMAND}" -E copy
 				"$<TARGET_FILE:${target}>"
-				"${RELEASE_DIR}/obs-plugins/${ARCH_NAME}"
-		VERBATIM)
+				"${RELEASE_DIR}/obs-plugins/${ARCH_NAME}")
 		
 		# If config is RelWithDebInfo, copy the pdb file
-		COMMAND if $<CONFIG:RelWithDebInfo> (
+		COMMAND if $<CONFIG:RelWithDebInfo> == 1(
 			"${CMAKE_COMMAND}" -E copy
 				"$<TARGET_PDB_FILE:${target}>"
-				"${RELEASE_DIR}/obs-plugins/${ARCH_NAME}"
-		VERBATIM)
+				"${RELEASE_DIR}/obs-plugins/${ARCH_NAME}")
 		
 		# Copy to obs-studio dev environment for immediate testing
-		COMMAND if $<CONFIG:Debug> (
+		COMMAND if $<CONFIG:Debug> == 1(
 			"${CMAKE_COMMAND}" -E copy
 				"$<TARGET_FILE:${target}>"
 				"$<TARGET_PDB_FILE:${target}>"
-				"${OBS_BUILDDIR}/rundir/$<CONFIG>/obs-plugins/${ARCH_NAME}"
-		VERBATIM)
+				"${OBS_BUILDDIR}/rundir/$<CONFIG>/obs-plugins/${ARCH_NAME}")
+
+		VERBATIM
 	)
 endfunction()
 
 function(install_plugin_data target data)
 	add_custom_command(TARGET ${target} POST_BUILD
-		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> (
+		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> == 1(
 			"${CMAKE_COMMAND}" -E copy_directory
 				"${CMAKE_CURRENT_SOURCE_DIR}/${data}"
-				"${RELEASE_DIR}/data/obs-plugins/${target}"
-		VERBATIM)
+				"${RELEASE_DIR}/data/obs-plugins/${target}")
 	
-		COMMAND if $<CONFIG:Debug> (
+		COMMAND if $<CONFIG:Debug> == 1(
 			"${CMAKE_COMMAND}" -E copy_directory
 				"${CMAKE_CURRENT_SOURCE_DIR}/${data}"
-				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}"
-		VERBATIM)
+				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}")
+
+		VERBATIM
 	)
 endfunction()
 
@@ -70,26 +69,24 @@ endfunction()
 
 function(install_plugin_bin_to_data target additional_target)
 	add_custom_command(TARGET ${additional_target} POST_BUILD
-		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> (
+		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> == 1(
 			"${CMAKE_COMMAND}" -E make_directory
-				"${RELEASE_DIR}/data/obs-plugins/${target}"
-		VERBATIM)
+				"${RELEASE_DIR}/data/obs-plugins/${target}")
 		
-		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> (
+		COMMAND if $<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>> == 1(
 			"${CMAKE_COMMAND}" -E copy
 				"$<TARGET_FILE:${additional_target}>"
-				"${RELEASE_DIR}/data/obs-plugins/${target}"
-		VERBATIM)
+				"${RELEASE_DIR}/data/obs-plugins/${target}")
 		
-		COMMAND if $<CONFIG:Debug> (
+		COMMAND if $<CONFIG:Debug> == 1(
 			"${CMAKE_COMMAND}" -E make_directory
-				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}"
-		VERBATIM)
+				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}")
 		
-		COMMAND if $<CONFIG:Debug> (
+		COMMAND if $<CONFIG:Debug> == 1 (
 			"${CMAKE_COMMAND}" -E copy
 				"$<TARGET_FILE:${additional_target}>"
-				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}"
-		VERBATIM)
+				"${OBS_BUILDDIR}/rundir/$<CONFIG>/data/obs-plugins/${target}")
+
+		VERBATIM
 	)
 endfunction()
