@@ -1,0 +1,40 @@
+/*
+Windows Audio Session Capture Plugin for OBS Studio
+Copyright (C) 2020 Cameron Blomquist cameron@blomqu.ist
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>
+*/
+
+1 VERSIONINFO
+ PRODUCTVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "@PLUGIN_AUTHOR@"
+            VALUE "FileDescription", "@PROJECT_DESCRIPTION@"
+            VALUE "FileVersion", "@PROJECT_VERSION@"
+            VALUE "InternalName", "@PROJECT_NAME@"
+            VALUE "LegalCopyright", "Copyright (C) @PLUGIN_AUTHOR@"
+            VALUE "OriginalFilename", "@PROJECT_NAME@"
+            VALUE "ProductName", "@PROJECT_DESCRIPTION@"
+            VALUE "ProductVersion", "@PROJECT_VERSION@"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 0x4B0
+    END
+END

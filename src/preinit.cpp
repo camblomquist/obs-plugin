@@ -48,7 +48,7 @@ static AudioRenderClientOffsets LoadOffsets(bool is32bit)
 
 	try {
 		ProcessPipe pipe(exe_path);
-		while (size_t len = pipe.Read(rawData, sizeof(rawData))) {
+		while (size_t len = pipe.Read(rawData, sizeof rawData)) {
 			data.append(rawData, len);
 		}
 	} catch (DWORD errorCode) {
